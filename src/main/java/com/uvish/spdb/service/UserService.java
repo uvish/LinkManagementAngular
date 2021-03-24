@@ -2,7 +2,6 @@ package com.uvish.spdb.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.validation.Valid;
@@ -36,7 +35,7 @@ public class UserService {
         return user.get();
     }
 
-    public boolean findAllUsers(UserRequestModel newUser){
+    public boolean findExistingUser(UserRequestModel newUser){
         List<User> users = userRepository.findAll();
         for (User user : users) {
             if(user.getUsername().equals(newUser.getUsername()) && user.getPassword().equals(newUser.getPassword())){

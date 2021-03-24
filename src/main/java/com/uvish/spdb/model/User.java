@@ -7,9 +7,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
+// TODO package names ✔
 // TODO TABle name same as entity ✔
 // TODO entity should not be accessible to Controller (use models) ✔
-// TODO encapsulation permissions
+
 
 @Entity
 @Table(name = "User")
@@ -20,6 +21,7 @@ public class User {
     private @NotBlank boolean loggedIn;
 
     public User() {
+    
     }
 
     public User(@NotBlank String username, @NotBlank String password) {

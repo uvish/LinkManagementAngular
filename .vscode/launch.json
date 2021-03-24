@@ -9,6 +9,26 @@
             "mainClass": "sp_db.SPDB",
             "projectName": "tutorial",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SPDB<tutorial>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.uvish.spdb.SPDB",
+            "projectName": "tutorial",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SPDB<SpringDB>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.uvish.spdb.SPDB",
+            "projectName": "SpringDB",
+            "args": ""
         }
     ]
 }
