@@ -1,4 +1,4 @@
-package com.uvish.spdb.model;
+package com.uvish.springApi.model;
 
 import org.springframework.stereotype.Component;
 

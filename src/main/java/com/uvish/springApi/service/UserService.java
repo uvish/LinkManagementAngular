@@ -1,18 +1,18 @@
-package com.uvish.spdb.service;
+package com.uvish.springApi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.validation.Valid;
-import com.uvish.spdb.model.*;
-import com.uvish.spdb.repository.*;
-import org.springframework.web.bind.annotation.RequestBody; 
+import com.uvish.springApi.model.*;
+import com.uvish.springApi.entity.User;
+import com.uvish.springApi.repository.*;
 
 @Service
 public class UserService {
     @Autowired
-    UserRepository userRepository;
+    public UserRepository userRepository;
     
 
     public Optional<User> getUserById(Long id) {
@@ -26,23 +26,39 @@ public class UserService {
     }
 
 
-    public User updateUserLoginStatus(Long id, Boolean isLoggedIn) {
-        Optional<User> user = userRepository.findById(id);
+    public boolean updateUserLoginStatus(Long id, Boolean isLoggedIn) {
+        Optional<User> user = userRepository.findById(id); 
+
+         // Optional provides isPresent() method to check if there is a value inside
+         // fn returns true if value found.
+
         if (user.isPresent()) {
             user.get().setLoggedIn(isLoggedIn);
             userRepository.save(user.get());
+            return true;
         }
-        return user.get();
+        else return false;
+        
     }
 
     public boolean findExistingUser(UserRequestModel newUser){
         List<User> users = userRepository.findAll();
         for (User user : users) {
             if(user.getUsername().equals(newUser.getUsername()) && user.getPassword().equals(newUser.getPassword())){
-        // if (user.equals(newUser)) {
         return true;
         }
     }
     return false;
+     }
+
+     public List<UserResponseModel> allUsers(){
+         List<UserResponseModel> responseList=new ArrayList<>();
+         userRepository.findAll().forEach((temp) -> {
+            UserResponseModel response=new UserResponseModel();
+            response.setId(temp.getId());
+            response.setUsername(temp.getUsername());
+            responseList.add(response);
+        });
+        return responseList;
      }
 }

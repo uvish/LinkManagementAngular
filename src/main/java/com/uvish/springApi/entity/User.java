@@ -1,4 +1,4 @@
-package com.uvish.spdb.model;
+package com.uvish.springApi.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,11 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
-
-// TODO package names ✔
-// TODO TABle name same as entity ✔
-// TODO entity should not be accessible to Controller (use models) ✔
-
 
 @Entity
 @Table(name = "User")
@@ -77,7 +72,6 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", loggedIn=" + loggedIn +
                 '}';
     }

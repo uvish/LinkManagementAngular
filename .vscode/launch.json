@@ -29,6 +29,26 @@
             "mainClass": "com.uvish.spdb.SPDB",
             "projectName": "SpringDB",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-UserLoginSpring<SpringDB>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.uvish.spdb.UserLoginSpring",
+            "projectName": "SpringDB",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-UserLoginSpring<SpringDB>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.uvish.springApi.UserLoginSpring",
+            "projectName": "SpringDB",
+            "args": ""
         }
     ]
 }
