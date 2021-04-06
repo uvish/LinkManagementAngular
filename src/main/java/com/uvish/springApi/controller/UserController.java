@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -39,18 +40,37 @@ public class UserController {
             userService.save(newUser);
             return new ResponseEntity<>("Registered",HttpStatus.OK);
         }
-        else return new ResponseEntity<>("Already Exist",HttpStatus.CONFLICT);
+        else return new ResponseEntity<>("Already Exist",HttpStatus.OK);
        }
    
-    @PutMapping("/login/{id}")    // login with 'id' as path variable 'http://localhost:8080/users/login/5' 
-    public ResponseEntity<String> loginUser(@PathVariable("id") Long id) {
-        if(id == null){
-            return new ResponseEntity<>("Invalid Id",HttpStatus.BAD_REQUEST);
-        }else{
-        if(userService.updateUserLoginStatus(id, true))return new ResponseEntity<>("Logged in",HttpStatus.OK);
-        else return new ResponseEntity<>("User Not Found",HttpStatus.NOT_FOUND);
-        }
-    }
+
+
+       @PutMapping("/login") // login with 'id' as path variable 'http://localhost:8080/users/login/5'
+       public ResponseEntity<String> loginUser(@Valid @RequestBody UserRequestModel user) {
+           if (user == null) return new ResponseEntity<>("Invalid Id",HttpStatus.BAD_REQUEST);
+               if (userService.updateUserLoginStatus(user)) 
+               {
+                   return ResponseEntity.ok(user.getUsername());
+               // return new ResponseEntity<>(user.getUsername(),HttpStatus.OK);
+               }
+                else 
+                {
+                return new ResponseEntity<>("User Not Found",HttpStatus.NOT_FOUND);
+               }
+       }
+
+
+    //    @PutMapping("/login")    // login with 'id' as path variable 'http://localhost:8080/users/login/5' 
+    //    @ResponseBody
+    //    public ResponseEntity<String> loginUser(@Valid @RequestBody UserRequestModel user) {
+    //        if(user == null){
+    //            return new ResponseEntity<>("Invalid Id",HttpStatus.BAD_REQUEST);
+    //        }else{
+    //        if(userService.updateUserLoginStatus(user)){
+    //        return new ResponseEntity<>("Logged in",HttpStatus.OK);}
+    //        else{ return new ResponseEntity<>("User Not Found",HttpStatus.NOT_FOUND);}
+    //        }
+    //    }
 
     @GetMapping("/all")
     public List<UserResponseModel> getAllUsers(){
@@ -59,7 +79,7 @@ public class UserController {
 
     @PutMapping("/logout/{id}")   // logout with 'id' as path variable 'http://localhost:8080/users/logout/5' 
     public ResponseEntity<String> logUserOut(@PathVariable("id") Long id) {
-        if (userService.updateUserLoginStatus(id, false)) {
+        if (userService.updateUserLoginStatusById(id, false)) {
             return new ResponseEntity<>("Logged Out", HttpStatus.OK);
         } else
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
