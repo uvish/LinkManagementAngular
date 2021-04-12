@@ -2,6 +2,8 @@ package com.uvish.springApi.controller;
 
 import java.util.List;
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.uvish.springApi.model.*;
 import com.uvish.springApi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,22 +38,29 @@ public class UserController {
         */
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRequestModel newUser) {
-        if(!userService.findExistingUser(newUser)){
+        if(!userService.findExisting(newUser)){
             userService.save(newUser);
             return new ResponseEntity<>("Registered",HttpStatus.OK);
         }
         else return new ResponseEntity<>("Already Exist",HttpStatus.OK);
        }
-   
 
 
-       @PutMapping("/login") // login with 'id' as path variable 'http://localhost:8080/users/login/5'
+    // login with request body'http://localhost:8080/users/login'
+//      {
+//        "email":"xxx@yyy.com",
+//        "password":"123"
+//      }
+
+       @PutMapping("/login")
        public ResponseEntity<String> loginUser(@Valid @RequestBody UserRequestModel user) {
            if (user == null) return new ResponseEntity<>("Invalid Id",HttpStatus.BAD_REQUEST);
                if (userService.updateUserLoginStatus(user)) 
                {
-                   return ResponseEntity.ok(user.getUsername());
-               // return new ResponseEntity<>(user.getUsername(),HttpStatus.OK);
+
+                   String username=userService.findUsername(user.getEmail());
+                   long id=userService.findId(user.getEmail());
+                   return ResponseEntity.ok(username+":"+id);
                }
                 else 
                 {
@@ -59,18 +68,6 @@ public class UserController {
                }
        }
 
-
-    //    @PutMapping("/login")    // login with 'id' as path variable 'http://localhost:8080/users/login/5' 
-    //    @ResponseBody
-    //    public ResponseEntity<String> loginUser(@Valid @RequestBody UserRequestModel user) {
-    //        if(user == null){
-    //            return new ResponseEntity<>("Invalid Id",HttpStatus.BAD_REQUEST);
-    //        }else{
-    //        if(userService.updateUserLoginStatus(user)){
-    //        return new ResponseEntity<>("Logged in",HttpStatus.OK);}
-    //        else{ return new ResponseEntity<>("User Not Found",HttpStatus.NOT_FOUND);}
-    //        }
-    //    }
 
     @GetMapping("/all")
     public List<UserResponseModel> getAllUsers(){

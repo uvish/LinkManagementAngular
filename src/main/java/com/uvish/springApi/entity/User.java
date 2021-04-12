@@ -12,6 +12,8 @@ import java.util.Objects;
 public class User {
     private @Id @GeneratedValue long id;
     private @NotBlank String username;
+    private @NotBlank String salutation;
+    private @NotBlank String email;
     private @NotBlank String password;
     private @NotBlank boolean loggedIn;
 
@@ -19,10 +21,29 @@ public class User {
     
     }
 
-    public User(@NotBlank String username, @NotBlank String password) {
-        this.username = username;
+    public User(@NotBlank String username,@NotBlank String email, @NotBlank String password, @NotBlank String salutation) {
+        this.username=username;
+        this.email = email;
         this.password = password;
         this.loggedIn = false;
+        this.salutation=salutation;
+    }
+
+
+    public String getSalutation() {
+        return salutation;
+    }
+
+    public void setSalutation(String salutation) {
+        this.salutation = salutation;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public long getId() {

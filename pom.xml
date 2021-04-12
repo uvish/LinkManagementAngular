@@ -11,7 +11,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>SpringDB</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SPDB</name>
+	<name>Links</name>
 	<description>Basic user authentication application made using Spring and Spring Boot</description>
 
 	<properties>

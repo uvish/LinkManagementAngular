@@ -7,6 +7,24 @@ public class UserResponseModel {
     private long id;
     private String username;
     private boolean loggedIn;
+    private String email;
+    private String salutation;
+
+    public String getSalutation() {
+        return salutation;
+    }
+
+    public void setSalutation(String salutation) {
+        this.salutation = salutation;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public long getId() {
         return this.id;

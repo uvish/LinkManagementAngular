@@ -19,33 +19,39 @@ public class UserService {
         return user;
     }
 
+    public String findUsername(String email){
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            if ( user.getEmail().equals(email) ) {
+               return user.getUsername();
+            }
+        }
+        return "NA";
+    }
+    public long findId(String email){
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            if ( user.getEmail().equals(email) ) {
+                return user.getId();
+            }
+        }
+        return 0;
+    }
+
     public void save(UserRequestModel user) {
-        User newUser = new User(user.getUsername(), user.getPassword());
+        User newUser = new User(user.getUsername(),user.getEmail(), user.getPassword(),user.getSalutation());
         userRepository.save(newUser);
     }
 
 
     public boolean updateUserLoginStatus(UserRequestModel user) {
-        long id_to_update=findExistingUserId(user);
-        if(id_to_update!=0){
-           User logginIn=new User(user.getUsername(), user.getPassword());
-           logginIn.setId(id_to_update);
-           logginIn.setLoggedIn(true);
-           userRepository.save(logginIn);
+        User id_to_update=findExistingUser(user);
+        if(id_to_update!=null){
+            id_to_update.setLoggedIn(true);
+           userRepository.save(id_to_update);
            return true;
         }
         else return false;
-
-        // Optional provides isPresent() method to check if there is a value inside
-        // fn returns true if value found.
-
-        // if (user.isPresent()) {
-        //     user.get().setLoggedIn(isLoggedIn);
-        //     userRepository.save(user.get());
-        //     return true;
-        // } else
-        //     return false;
-
     }
 
     public boolean updateUserLoginStatusById(Long id, Boolean isLoggedIn) {
@@ -63,21 +69,19 @@ public class UserService {
 
     }
 
-    public long findExistingUserId(UserRequestModel newUser) {
+    public User findExistingUser(UserRequestModel newUser) {
         List<User> users = userRepository.findAll();
         for (User user : users) {
-            if (user.getUsername().equals(newUser.getUsername()) && user.getPassword().equals(newUser.getPassword())) {
-               return user.getId();
-                // return true;
+            if ( user.getEmail().equals(newUser.getEmail()) && user.getPassword().equals(newUser.getPassword()) ) {
+               return user;
             }
         }
-        return 0;
-       // return false;
+        return null;
     }
-    public boolean findExistingUser(UserRequestModel newUser) {
+    public boolean findExisting(UserRequestModel newUser) {
         List<User> users = userRepository.findAll();
         for (User user : users) {
-            if (user.getUsername().equals(newUser.getUsername()) && user.getPassword().equals(newUser.getPassword())) {
+            if ( user.getEmail().equals(newUser.getEmail()) ) {
                  return true;
             }
         }
@@ -91,6 +95,8 @@ public class UserService {
             response.setId(temp.getId());
             response.setUsername(temp.getUsername());
             response.setLoggedIn(temp.isLoggedIn());
+            response.setSalutation(temp.getSalutation());
+            response.setEmail(temp.getEmail());
             responseList.add(response);
         });
         return responseList;
